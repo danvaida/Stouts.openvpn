@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 
 # Which local IP address should OpenVPN listen on? (optional)
 {% if openvpn_local is defined -%}
@@ -37,13 +37,13 @@ dev {{ openvpn_dev }}
 #
 # Any X509 key management system can be used. OpenVPN can also use a PKCS #12
 # formatted key file (see "pkcs12" directive in man page).
-ca {{openvpn_keydir}}/ca.crt
-cert {{openvpn_keydir}}/server.crt
-key {{openvpn_keydir}}/server.key  # This file should be kept secret
+ca {{ openvpn_keydir }}/ca.crt
+cert {{ openvpn_keydir }}/server.crt
+key {{ openvpn_keydir }}/server.key  # This file should be kept secret
 
 # Diffie hellman parameters. Generate your own with: openssl dhparam -out
 # dh1024.pem 1024 Substitute 2048 for 1024 if you are using 2048 bit keys.
-dh {{openvpn_keydir}}/dh{{openvpn_key_size}}.pem
+dh {{ openvpn_keydir }}/dh{{ openvpn_key_size }}.pem
 
 {% if openvpn_tls_auth -%}
 # Use a static pre-shared key (PSK)
@@ -86,7 +86,7 @@ server-bridge {{ openvpn_bridge.address }} {{ openvpn_bridge.netmask }} {{ openv
 # Maintain a record of client <-> virtual IP address associations in this file.
 # If OpenVPN goes down or is restarted, reconnecting clients can be assigned
 # the same virtual IP address from the pool that was previously assigned.
-ifconfig-pool-persist {{openvpn_ifconfig_pool_persist}}
+ifconfig-pool-persist {{ openvpn_ifconfig_pool_persist }}
 
 # The keepalive directive causes ping-like messages to be sent back and forth
 # over the link so that each side knows when the other side has gone down. Ping
@@ -109,7 +109,7 @@ persist-tun
 
 # Output a short status file showing current connections, truncated and
 # rewritten every minute.
-status {{openvpn_status}}
+status {{ openvpn_status }}
 
 # By default, log messages will go to the syslog (or on Windows, if running as
 # a service, they will go to the "\Program Files\OpenVPN\log" directory). Use
@@ -117,28 +117,28 @@ status {{openvpn_status}}
 # on OpenVPN startup, while "log-append" will append to it.  Use one or the
 # other (but not both).
 ;log         openvpn.log
-log-append  {{openvpn_log}}
+log-append  {{ openvpn_log }}
 
 # Set the appropriate level of log file verbosity.
 #
 # 0 is silent, except for fatal errors 4 is reasonable for general usage 5 and
 # 6 can help to debug connection problems 9 is extremely verbose
-verb {{openvpn_verb}}
+verb {{ openvpn_verb }}
 
 # The maximum number of concurrently connected clients we want to allow.
-max-clients {{openvpn_max_clients}}
+max-clients {{ openvpn_max_clients }}
 
 # It's a good idea to reduce the OpenVPN daemon's privileges after
 # initialization.
 #
 # You can uncomment this out on non-Windows systems.
 {% if openvpn_user -%}
-user {{openvpn_user}}
+user {{ openvpn_user }}
 {% else -%}
 ;user nobody
 {% endif %}
 {% if openvpn_group -%}
-group {{openvpn_group}}
+group {{ openvpn_group }}
 {% else -%}
 group nogroup
 {% endif %}
@@ -149,7 +149,7 @@ client-to-client
 
 {% if openvpn_use_pam %}
 client-cert-not-required
-plugin {{openvpn_use_pam_plugin|default(openvpn_use_pam_plugin_distribution)}} openvpn
+plugin {{ openvpn_use_pam_plugin|default(openvpn_use_pam_plugin_distribution) }} openvpn
 {% endif %}
 
 {% if openvpn_use_ldap %}
@@ -162,9 +162,9 @@ script-security 3 execve
 {% endif %}
 
 {% for option in openvpn_server_options %}
-{{option}}
+{{ option }}
 {% endfor %}
 
 {% if crl_pem_file.stat.exists %}
-crl-verify {{openvpn_keydir}}/crl.pem
+crl-verify {{ openvpn_keydir }}/crl.pem
 {% endif %}

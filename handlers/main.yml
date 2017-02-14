@@ -1,11 +1,19 @@
 ---
 
 - name: openvpn restart
-  service: name={{openvpn_service}} state=restarted
+  service:
+    name: "{{ openvpn_service }}"
+    state: restarted
+  when:
+    - _openvpn_reqs_install|changed
+    - not ansible_check_mode
 
 - name: openvpn pack clients
-  command: zip -j {{item.item}}.zip {{item.item}}.crt {{item.item}}.key {{item.item}}.ovpn ca.crt {{openvpn_tls_key if openvpn_tls_auth else ''}}
-  when: item.changed
-  with_items: "{{openvpn_clients_changed.results}}"
+  command: >
+    zip -j {{ item.item }}.zip {{ item.item }}.crt
+    {{ item.item }}.key {{ item.item }}.ovpn ca.crt
+    {{ openvpn_tls_key if openvpn_tls_auth else '' }}
   args:
     chdir: "{{ openvpn_keydir }}"
+  with_items: "{{ openvpn_clients_changed.results }}"
+  when: item.changed

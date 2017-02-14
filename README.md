@@ -1,8 +1,7 @@
 Stouts.openvpn
 ==============
 
-[![Build Status](http://img.shields.io/travis/Stouts/Stouts.openvpn.svg?style=flat-square)](https://travis-ci.org/Stouts/Stouts.openvpn)
-[![Galaxy](http://img.shields.io/badge/galaxy-Stouts.openvpn-blue.svg?style=flat-square)](https://galaxy.ansible.com/Stouts/openvpn/)
+[![Build Status](https://travis-ci.org/danvaida/Stouts.openvpn.svg?branch=master)](https://travis-ci.org/danvaida/Stouts.openvpn)
 
 Ansible role which manage openvpn server
 
@@ -12,22 +11,20 @@ Ansible role which manage openvpn server
 
 #### Requirements
 
-Only tested on ubuntu for now.
+* `python-apt` for supporting dry-run mode.
 
 #### Variables
 
 ```yaml
-openvpn_enabled: yes                                # The role is enabled
-
 openvpn_etcdir: /etc/openvpn
-openvpn_keydir: "{{openvpn_etcdir}}/keys"
+openvpn_keydir: "{{ openvpn_etcdir }}/keys"
 
 # Installation settings
 openvpn_use_external_repo: false                    # Enable upstream OpenVPN repository
 openvpn_use_system_easyrsa: false                   # Install EasyRSA from system packages
 
 # Default settings (See OpenVPN documentation)
-openvpn_host: "{{inventory_hostname}}"              # The server address
+openvpn_host: "{{ inventory_hostname }}"              # The server address
 openvpn_port: 1194
 openvpn_proto: udp
 openvpn_dev: tun
@@ -131,6 +128,14 @@ Example:
 Install and copy client's configuration from `/etc/openvpn/keys/myvpn.tar.gz` file.
 If you set `openvpn_unified_client_profiles: yes`, then you only need to copy
 `/etc/openvpn/keys/myvpn.ovpn`, as all the config info will be inlined.
+
+#### Tests
+
+For running the tests on the provided docker container, run the following commands:
+
+    $ cd /path/to/ansible-roles/openvpn
+    $ docker build -t ansible-roles-trusty-test tests/support
+    $ docker run --rm -it --privileged -v $PWD:/etc/ansible/roles/openvpn:ro ansible-roles-trusty-test
 
 #### License
 

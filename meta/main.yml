@@ -6,11 +6,13 @@ galaxy_info:
   author: klen
   company: Stouts
   description: Manage OpenVPN server
+  issue_tracker_url: https://github.com/Stouts/Stouts.openvpn/issues
   license: MIT
+  min_ansible_version: 2.0
   platforms:
-  - name: Ubuntu
-    versions:
-    - all
-  categories:
-  - system
-  - networking
+    - name: Ubuntu
+      versions:
+        - trusty
+  galaxy_tags:
+    - system
+    - networking

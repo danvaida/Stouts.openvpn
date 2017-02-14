@@ -1,5 +1,23 @@
 ---
+- name: Include OS-specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.{{ ansible_lsb.codename }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "Common-default.yml"
 
-- include: openvpn.yml
-  when: openvpn_enabled
-  tags: [openvpn]
+- include: install.yml
+
+- include: configure.yml
+
+- include: setup-bridge.yml
+
+- name: Ensure OpenVPN is started
+  service:
+    name: "{{ openvpn_service }}"
+    state: started
+    enabled: True
+  when:
+    - _openvpn_reqs_install|changed
+    - not ansible_check_mode
