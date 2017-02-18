@@ -1,7 +1,7 @@
 Stouts.openvpn
 ==============
 
-[![Build Status](https://travis-ci.org/danvaida/Stouts.openvpn.svg?branch=master)](https://travis-ci.org/danvaida/Stouts.openvpn)
+[![Build Status](https://travis-ci.org/danvaida/ansible-roles-openvpn.svg?branch=master)](https://travis-ci.org/danvaida/ansible-roles-openvpn)
 
 Ansible role which manage openvpn server
 
