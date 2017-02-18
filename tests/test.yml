@@ -3,3 +3,15 @@
   roles:
     - role: openvpn
       openvpn_dev: tap
+
+  post_tasks:
+    - block:
+        - command: ss -u -a -n
+          changed_when: False
+          register: sockets_status
+
+        - name: OpenVPN should be listening behind the correct port
+          assert:
+            that: '"*:{{ openvpn_port }}" in sockets_status.stdout'
+
+      when: not ansible_check_mode
