@@ -1,0 +1,15 @@
+---
+openvpn_route_all_client_traffic: True
+openvpn_unified_client_profiles:  True
+openvpn_use_external_repo:        True
+openvpn_use_pam:                  True
+
+openvpn_clients:
+  - client_one
+  - client_two
+
+openvpn_use_pam_users:
+  - name: user_one
+    password: password
+  - name: user_two
+    password: password

@@ -86,6 +86,7 @@
     dest: "{{ openvpn_keydir }}/{{ item }}.ovpn"
   with_items: "{{ openvpn_clients }}"
   notify: openvpn pack clients
+  when: not ansible_check_mode
   register: openvpn_clients_changed
 
 - name: Setup PAM
@@ -94,6 +95,11 @@
     dest: '/etc/pam.d/openvpn'
   when: openvpn_use_pam
 
+- name: Checking if the "{{ openvpn_etcdir }}/users" dir exists
+  stat:
+    path: "{{ openvpn_etcdir }}/users"
+  register: _openvpn_users_dir
+
 - name: Configure users
   htpasswd:
     path: "{{ openvpn_etcdir }}/users"
@@ -101,6 +107,7 @@
     password: "{{ item.password }}"
     crypt_scheme: des_crypt
   with_items: "{{ openvpn_use_pam_users }}"
+  when: _openvpn_users_dir.stat.exists
 
 - name: Setup LDAP
   template:

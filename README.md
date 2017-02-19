@@ -137,6 +137,13 @@ For running the tests on the provided docker container, run the following comman
     $ docker build -t ansible-roles-trusty-test tests/support
     $ docker run --rm -it --privileged -v $PWD:/etc/ansible/roles/openvpn:ro ansible-roles-trusty-test
 
+To override the defaults and use different vars:
+
+    $ docker run --rm -it --privileged -v $PWD:/etc/ansible/roles/openvpn:ro \
+      --env test_case=01 ansible-roles-trusty-test
+
+See the `tests/test_case_01.yml` vars file as an example.
+
 #### License
 
 Licensed under the MIT License. See the LICENSE file for details.

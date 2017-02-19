@@ -27,9 +27,14 @@
   register: openvpn_read_client_key_files_results
   with_items: "{{ openvpn_clients }}"
 
-- name: Set client cert and CA info as fact.
+- name: Set client cert, cert key and CA info as fact.
   set_fact:
     openvpn_ca_file_contents: "{{ openvpn_read_ca_file_results.stdout }}"
     openvpn_client_cert_output: "{{ openvpn_read_client_cert_files_results.results }}"
     openvpn_client_keys_output: "{{ openvpn_read_client_key_files_results.results }}"
-    openvpn_tls_auth_file_contents: "{{ openvpn_read_tlsauth_file_results['content'] | b64decode | default('') }}"
+  when: not ansible_check_mode
+
+- name: Set tls auth key as fact.
+  set_fact:
+    openvpn_tls_auth_file_contents: "{{ openvpn_read_tlsauth_file_results['content'] | b64decode }}"
+  when: not openvpn_read_tlsauth_file_results.skipped

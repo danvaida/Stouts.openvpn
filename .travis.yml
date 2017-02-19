@@ -5,6 +5,9 @@ services:
 install:
   - docker build -t ansible-roles-trusty-test tests/support
   - docker run --rm -it --privileged -v $PWD:/etc/ansible/roles/openvpn:ro ansible-roles-trusty-test
+  - >
+    docker run --rm -it --privileged -v $PWD:/etc/ansible/roles/openvpn:ro
+    --env test_case=01 ansible-roles-trusty-test
 
 before_script:
   - docker images

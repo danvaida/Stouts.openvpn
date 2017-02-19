@@ -2,7 +2,6 @@
 - hosts: local
   roles:
     - role: openvpn
-      openvpn_dev: tap
 
   post_tasks:
     - block:
