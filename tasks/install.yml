@@ -1,5 +1,4 @@
 ---
-
 - name: Add OpenVPN repo GPG key
   apt_key:
     id: E158C569

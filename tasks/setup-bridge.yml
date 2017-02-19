@@ -1,5 +1,4 @@
 ---
-
 - name: Setup bridge
   template:
     src: bridge-interface.j2
