@@ -27,7 +27,7 @@
       EasyRSA 2.x is not present in /usr/share/easy-rsa.
       Ensure the easy-rsa package is installed or disable the `openvpn_use_system_easyrsa` option.
   when:
-     - not ansible_check_mode|d(False)
+     - not ansible_check_mode
      - openvpn_use_system_easyrsa
      - not openvpn_easyrsa_check.stat.exists
 
@@ -69,7 +69,7 @@
   when: openvpn_unified_client_profiles
 
 - name: Create client configuration directory if requested
-  file: >
+  file:
     path: "{{ openvpn_client_config_dir }}"
     mode: 0755
     state: directory
