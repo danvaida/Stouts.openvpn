@@ -15,7 +15,6 @@
 - name: Install requirements
   apt:
     name: "{{ item }}"
-    force: True
     state: present
   with_items: [openvpn, udev, openssl, zip]
   register: _openvpn_reqs_install
@@ -23,7 +22,6 @@
 - name: Install dependencies
   apt:
     name: "{{ item }}"
-    force: True
     state: present
   when: openvpn_use_pam_users|default(false)
   with_items: [libpam-pwdfile, python-passlib]
@@ -37,7 +35,6 @@
 - name: Install LDAP dependencies
   apt:
     name: openvpn-auth-ldap
-    force: True
     state: present
   when: openvpn_use_ldap
 
