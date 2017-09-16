@@ -1,8 +1,8 @@
 ---
 - name: Add OpenVPN repo GPG key
   apt_key:
-    id: E158C569
-    url: https://swupdate.openvpn.net/repos/repo-public.gpg
+    id: 8E6DA8B4E158C569
+    keyserver: hkps.pool.sks-keyservers.net
   when: openvpn_use_external_repo
 
 - name: Add OpenVPN repo sources
